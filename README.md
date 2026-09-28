@@ -1,4 +1,12 @@
-# HỆ THỐNG QUẢN LÝ TOUR DU LỊCH (TOUR TRAVEL MANAGEMENT)
+# HỆ THỐNG QUẢN LÝ TOUR DU LỊCH (Tour Travel Management)
+
+<p>
+  <img src="https://img.shields.io/badge/Java-17%2B-orange" alt="Java">
+  <img src="https://img.shields.io/badge/Spring%20MVC-brightgreen" alt="Spring MVC">
+  <img src="https://img.shields.io/badge/Hibernate-ORM-blue" alt="Hibernate">
+  <img src="https://img.shields.io/badge/MySQL-Database-4479A1" alt="MySQL">
+  <img src="https://img.shields.io/badge/Tomcat-10-yellow" alt="Tomcat 10">
+</p>
 
 ## 1. Giới thiệu
 
@@ -6,25 +14,25 @@ Hệ thống Quản lý Tour Du lịch được xây dựng nhằm hỗ trợ đ
 
 Hệ thống cho phép:
 
-* Quản lý thông tin khách hàng.
-* Quản lý danh sách tour du lịch.
-* Đăng ký tour cho khách hàng.
-* Tìm kiếm tour theo điểm đến và ngày khởi hành.
-* Thống kê chi phí dự kiến của khách hàng tham gia tour.
+- Quản lý thông tin khách hàng.
+- Quản lý danh sách tour du lịch.
+- Đăng ký tour cho khách hàng.
+- Tìm kiếm tour theo điểm đến và ngày khởi hành.
+- Thống kê chi phí dự kiến của khách hàng tham gia tour.
 
 ---
 
 ## 2. Công nghệ sử dụng
 
-* Java 17+
-* Spring MVC (Không sử dụng Spring Boot)
-* Hibernate ORM
-* MySQL
-* JSP/JSTL
-* Apache Tomcat 10
-* Bootstrap 5
-* Font Awesome
-* Maven
+- Java 17+
+- Spring MVC (Không sử dụng Spring Boot)
+- Hibernate ORM
+- MySQL
+- JSP/JSTL
+- Apache Tomcat 10
+- Bootstrap 5
+- Font Awesome
+- Maven
 
 ---
 
@@ -32,78 +40,60 @@ Hệ thống cho phép:
 
 ### Bảng KHACH_HANG
 
-| Tên cột     | Kiểu dữ liệu             | Mô tả         |
-| ----------- | ------------------------ | ------------- |
-| maKhachHang | INT (PK, AUTO_INCREMENT) | Mã khách hàng |
-| hoTen       | VARCHAR(100)             | Họ tên        |
-| soDienThoai | VARCHAR(10)              | Số điện thoại |
-| email       | VARCHAR(100)             | Email         |
-| diaChi      | VARCHAR(255)             | Địa chỉ       |
-
----
+| Tên cột     | Kiểu dữ liệu              | Mô tả         |
+| ----------- | ------------------------- | ------------- |
+| maKhachHang | INT (PK, AUTO_INCREMENT)  | Mã khách hàng |
+| hoTen       | VARCHAR(100)                | Họ tên        |
+| soDienThoai | VARCHAR(10)                   | Số điện thoại |
+| email       | VARCHAR(100)                    | Email         |
+| diaChi      | VARCHAR(255)                      | Địa chỉ       |
 
 ### Bảng TOUR_DU_LICH
 
-| Tên cột      | Kiểu dữ liệu             | Mô tả          |
-| ------------ | ------------------------ | -------------- |
-| maTour       | INT (PK, AUTO_INCREMENT) | Mã tour        |
-| tenTour      | VARCHAR(150)             | Tên tour       |
-| diemKhoiHanh | VARCHAR(100)             | Điểm khởi hành |
-| diemDen      | VARCHAR(100)             | Điểm đến       |
-| giaTour      | BIGINT                   | Giá tour       |
-| thoiGian     | INT                      | Số ngày        |
-
----
+| Tên cột      | Kiểu dữ liệu              | Mô tả          |
+| ------------ | ------------------------- | -------------- |
+| maTour       | INT (PK, AUTO_INCREMENT)  | Mã tour        |
+| tenTour      | VARCHAR(150)                | Tên tour       |
+| diemKhoiHanh | VARCHAR(100)                  | Điểm khởi hành |
+| diemDen      | VARCHAR(100)                    | Điểm đến       |
+| giaTour      | BIGINT                           | Giá tour       |
+| thoiGian     | INT                                | Số ngày        |
 
 ### Bảng DANG_KY_TOUR
 
-| Tên cột        | Kiểu dữ liệu             | Mô tả             |
-| -------------- | ------------------------ | ----------------- |
-| maDangKy       | INT (PK, AUTO_INCREMENT) | Mã đăng ký        |
-| maKhachHang    | INT (FK)                 | Khách hàng        |
-| maTour         | INT (FK)                 | Tour              |
-| ngayDangKy     | DATE                     | Ngày đăng ký      |
-| ngayKhoiHanh   | DATE                     | Ngày khởi hành    |
-| soNguoiThamGia | INT                      | Số người tham gia |
+| Tên cột        | Kiểu dữ liệu              | Mô tả             |
+| -------------- | ------------------------- | ----------------- |
+| maDangKy       | INT (PK, AUTO_INCREMENT)  | Mã đăng ký        |
+| maKhachHang    | INT (FK)                    | Khách hàng        |
+| maTour         | INT (FK)                     | Tour              |
+| ngayDangKy     | DATE                           | Ngày đăng ký      |
+| ngayKhoiHanh   | DATE                            | Ngày khởi hành    |
+| soNguoiThamGia | INT                               | Số người tham gia |
 
 ---
 
 ## 4. Quan hệ dữ liệu
 
-### KHACH_HANG → DANG_KY_TOUR
-
-Một khách hàng có thể đăng ký nhiều tour.
-
+**KHACH_HANG → DANG_KY_TOUR** (một khách hàng có thể đăng ký nhiều tour):
 ```java
 @OneToMany(mappedBy = "khachHang")
 private List<DangKyTour> dangKyTours;
 ```
 
----
-
-### TOUR_DU_LICH → DANG_KY_TOUR
-
-Một tour có thể có nhiều khách hàng đăng ký.
-
+**TOUR_DU_LICH → DANG_KY_TOUR** (một tour có thể có nhiều khách hàng đăng ký):
 ```java
 @OneToMany(mappedBy = "tourDuLich")
 private List<DangKyTour> dangKyTours;
 ```
 
----
-
-### DANG_KY_TOUR → KHACH_HANG
-
+**DANG_KY_TOUR → KHACH_HANG:**
 ```java
 @ManyToOne
 @JoinColumn(name = "maKhachHang")
 private KhachHang khachHang;
 ```
 
----
-
-### DANG_KY_TOUR → TOUR_DU_LICH
-
+**DANG_KY_TOUR → TOUR_DU_LICH:**
 ```java
 @ManyToOne
 @JoinColumn(name = "maTour")
@@ -114,7 +104,9 @@ private TourDuLich tourDuLich;
 
 ## 5. Dữ liệu mẫu
 
-### KHACH_HANG
+> Dữ liệu bên dưới là dữ liệu **giả định** để test/demo, không phải thông tin khách hàng thật.
+
+**KHACH_HANG (mẫu):**
 
 | Họ tên       | Số điện thoại |
 | ------------ | ------------- |
@@ -124,9 +116,7 @@ private TourDuLich tourDuLich;
 | Phạm Thị D   | 0971111222    |
 | Hoàng Văn E  | 0933333444    |
 
----
-
-### TOUR_DU_LICH
+**TOUR_DU_LICH (mẫu):**
 
 | Tên tour       | Điểm đến  | Giá tour |
 | -------------- | --------- | -------- |
@@ -140,28 +130,9 @@ private TourDuLich tourDuLich;
 
 ## 6. Chức năng Đăng ký Tour
 
-### Form đăng ký
+**Form đăng ký:** Khách hàng, Tour du lịch, Ngày đăng ký, Ngày khởi hành, Số người tham gia.
 
-Cho phép nhập:
-
-* Khách hàng
-* Tour du lịch
-* Ngày đăng ký
-* Ngày khởi hành
-* Số người tham gia
-
----
-
-### ComboBox Khách hàng
-
-Load dữ liệu từ:
-
-```text
-KHACH_HANG
-```
-
-Ví dụ:
-
+**ComboBox Khách hàng** — load từ `KHACH_HANG`:
 ```jsp
 <form:select path="maKhachHang">
     <form:options
@@ -171,18 +142,7 @@ Ví dụ:
 </form:select>
 ```
 
----
-
-### ComboBox Tour
-
-Load dữ liệu từ:
-
-```text
-TOUR_DU_LICH
-```
-
-Ví dụ:
-
+**ComboBox Tour** — load từ `TOUR_DU_LICH`:
 ```jsp
 <form:select path="maTour">
     <form:options
@@ -192,158 +152,63 @@ Ví dụ:
 </form:select>
 ```
 
----
+### Validation
 
-## 7. Validation
-
-### Bắt buộc nhập
-
-Tất cả trường đều bắt buộc.
-
+**Bắt buộc nhập** (tất cả trường):
 ```java
 @NotNull
 private Integer maTour;
 ```
 
----
-
-### Ngày khởi hành
-
-Điều kiện:
-
-```text
-Ngày khởi hành phải sau ngày đăng ký ít nhất 3 ngày
-```
-
-Ví dụ:
-
+**Ngày khởi hành:** phải sau ngày đăng ký ít nhất 3 ngày.
 ```java
 if (ngayKhoiHanh.isBefore(ngayDangKy.plusDays(3))) {
-    errors.rejectValue(
-        "ngayKhoiHanh",
-        "error.ngayKhoiHanh"
-    );
+    errors.rejectValue("ngayKhoiHanh", "error.ngayKhoiHanh");
 }
 ```
-
-Ví dụ:
-
 | Ngày đăng ký | Ngày khởi hành | Kết quả      |
 | ------------ | -------------- | ------------ |
 | 01/06/2026   | 05/06/2026     | Hợp lệ       |
 | 01/06/2026   | 03/06/2026     | Không hợp lệ |
 
----
-
-### Số người tham gia
-
-Điều kiện:
-
-```text
-0 < soNguoiThamGia < 20
-```
-
-Ví dụ:
-
+**Số người tham gia:** `0 < soNguoiThamGia < 20`
 ```java
 @Min(1)
 @Max(19)
 private Integer soNguoiThamGia;
 ```
-
-Hợp lệ:
-
-```text
-1
-5
-10
-19
-```
-
-Không hợp lệ:
-
-```text
-0
-20
-25
-```
+- Hợp lệ: `1`, `5`, `10`, `19`
+- Không hợp lệ: `0`, `20`, `25`
 
 ---
 
-## 8. Chức năng tìm kiếm & thống kê
+## 7. Chức năng tìm kiếm & thống kê
 
-### Form tìm kiếm
+**Tìm theo:** Điểm đến, Ngày khởi hành. Ví dụ: Điểm đến `Đà Nẵng`, Ngày khởi hành `15/07/2026`.
 
-Cho phép tìm theo:
+**Kết quả hiển thị:** Tên khách hàng, Số điện thoại, Tên tour, Điểm đến, Ngày khởi hành, Số người tham gia, Giá tour, Tổng chi phí dự kiến.
 
-* Điểm đến
-* Ngày khởi hành
-
-Ví dụ:
-
-```text
-Điểm đến: Đà Nẵng
-Ngày khởi hành: 15/07/2026
+**Công thức:** `Tổng chi phí = soNguoiThamGia × giaTour`
 ```
-
----
-
-## 9. Kết quả tìm kiếm
-
-Hiển thị:
-
-| Trường dữ liệu       |
-| -------------------- |
-| Tên khách hàng       |
-| Số điện thoại        |
-| Tên tour             |
-| Điểm đến             |
-| Ngày khởi hành       |
-| Số người tham gia    |
-| Giá tour             |
-| Tổng chi phí dự kiến |
-
----
-
-### Công thức tính
-
-```text
-Tổng chi phí = soNguoiThamGia × giaTour
-```
-
-Ví dụ:
-
-```text
 5 × 3.500.000 = 17.500.000 VNĐ
 ```
 
----
+### Truy vấn JOIN 3 bảng
 
-## 10. Truy vấn JOIN 3 bảng
-
-### SQL
-
+**SQL:**
 ```sql
-SELECT kh.hoTen,
-       kh.soDienThoai,
-       td.tenTour,
-       td.diemDen,
+SELECT kh.hoTen, kh.soDienThoai, td.tenTour, td.diemDen,
        dk.ngayKhoiHanh,
        (dk.soNguoiThamGia * td.giaTour) AS tongChiPhi
 FROM DANG_KY_TOUR dk
-INNER JOIN KHACH_HANG kh
-    ON dk.maKhachHang = kh.maKhachHang
-INNER JOIN TOUR_DU_LICH td
-    ON dk.maTour = td.maTour
+INNER JOIN KHACH_HANG kh ON dk.maKhachHang = kh.maKhachHang
+INNER JOIN TOUR_DU_LICH td ON dk.maTour = td.maTour
 WHERE td.diemDen LIKE '%?%'
 AND dk.ngayKhoiHanh = ?;
 ```
 
----
-
-### HQL
-
-```sql
+**HQL:**
+```
 SELECT dk
 FROM DangKyTour dk
 JOIN dk.khachHang kh
@@ -354,9 +219,9 @@ AND dk.ngayKhoiHanh = :ngayKhoiHanh
 
 ---
 
-## 11. Kiến trúc dự án
+## 8. Kiến trúc dự án
 
-```text
+```
 src/main/java
 │
 ├── controller
@@ -374,7 +239,7 @@ src/main/java
 │   └── DangKyTourDAO
 │
 ├── service
-│   ├── DangKyTourService
+│   └── DangKyTourService
 │
 ├── validator
 │   └── DangKyTourValidator
@@ -387,88 +252,73 @@ src/main/java
 
 ---
 
-## 12. Giao diện
+## 9. Giao diện
 
-Yêu cầu:
+Yêu cầu: Bootstrap 5, Font Awesome, Responsive Design.
 
-* Bootstrap 5
-* Font Awesome
-* Responsive Design
+**Dashboard:** Tổng số khách hàng, Tổng số tour, Tổng số đăng ký.
 
-Các trang chính:
+**Đăng ký tour:** Thêm đăng ký mới, Danh sách đăng ký.
 
-### Dashboard
-
-* Tổng số khách hàng
-* Tổng số tour
-* Tổng số đăng ký
-
-### Đăng ký tour
-
-* Thêm đăng ký mới
-* Danh sách đăng ký
-
-### Tìm kiếm
-
-* Theo điểm đến
-* Theo ngày khởi hành
+**Tìm kiếm:** Theo điểm đến, Theo ngày khởi hành.
 
 ---
 
-## 13. Yêu cầu kỹ thuật
+## 10. Yêu cầu kỹ thuật
 
-### Framework
-
-* Spring MVC thuần
-
-### ORM
-
-* Hibernate SessionFactory
-
-### Database
-
-* MySQL
-
-### Server
-
-* Apache Tomcat 10
-
-### Coding Convention
-
-* PascalCase cho Class
-* camelCase cho biến
-* Controller → Service → DAO → Entity
+- **Framework:** Spring MVC thuần
+- **ORM:** Hibernate SessionFactory
+- **Database:** MySQL
+- **Server:** Apache Tomcat 10
+- **Coding Convention:** PascalCase cho Class, camelCase cho biến, `Controller → Service → DAO → Entity`
 
 ---
 
-## 14. Kết luận
+## Bắt đầu (Getting Started)
 
-Hệ thống đáp ứng đầy đủ các yêu cầu:
+### Yêu cầu
 
-✔ Quản lý Khách hàng
+- JDK 17+
+- MySQL
+- Apache Tomcat 10
+- IDE: IntelliJ IDEA / Eclipse
 
-✔ Quản lý Tour du lịch
+### Cài đặt
 
-✔ Đăng ký Tour
+```bash
+git clone https://github.com/nhunguy-swe/tour-travel-management.git
+cd tour-travel-management
+```
 
-✔ ComboBox load dữ liệu từ CSDL
+### Cấu hình Database
 
-✔ Validation ngày khởi hành
+1. Tạo các bảng `KHACH_HANG`, `TOUR_DU_LICH`, `DANG_KY_TOUR` theo thiết kế ở trên (chạy script SQL nếu có trong thư mục `database/`).
+2. Cập nhật thông tin kết nối trong `HibernateConfig.java`.
 
-✔ Validation số người tham gia
+> ⚠️ Không hard-code mật khẩu database trực tiếp trong code nếu push lên GitHub public — dùng biến môi trường hoặc file cấu hình đã thêm vào `.gitignore`.
 
-✔ Truy vấn JOIN 3 bảng
+### Chạy ứng dụng
 
-✔ Tính tổng chi phí dự kiến
+```bash
+mvn clean install
+```
 
-✔ Spring MVC thuần
+Deploy file `.war` lên **Apache Tomcat 10**, truy cập tại `http://localhost:8080/tour-travel-management/`.
 
-✔ Hibernate SessionFactory
+---
 
-✔ MySQL
+## 11. Kết luận
 
-✔ Tomcat 10
+Hệ thống đáp ứng đầy đủ các yêu cầu: Quản lý Khách hàng · Quản lý Tour du lịch · Đăng ký Tour · ComboBox load dữ liệu từ CSDL · Validation ngày khởi hành · Validation số người tham gia · Truy vấn JOIN 3 bảng · Tính tổng chi phí dự kiến · Spring MVC thuần · Hibernate SessionFactory · MySQL · Tomcat 10 · Bootstrap + Font Awesome · Tuân thủ Java Coding Convention
 
-✔ Bootstrap + Font Awesome
+---
 
-✔ Tuân thủ Java Coding Convention
+## Tác giả
+
+- GitHub: [@nhunguy-swe](https://github.com/nhunguy-swe)
+
+---
+
+## Giấy phép
+
+Dự án này được thực hiện cho mục đích học tập/ôn thi cá nhân.
